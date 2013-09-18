@@ -1,14 +1,13 @@
 echo "Setting up: aliases" 
 
 dck-ssh() {
-	sudo docker run -i -t $1 /bin/bash
+	sudo docker run -i -t "$1" /bin/bash
 }
 
 alias dck='sudo docker'
 alias dck-build='sudo docker build .'
 alias dck-ps='sudo docker ps'
 alias dck-tag='sudo docker tag'
-alias dck-ssh='sudo docker run -i'
 
 alias ll='ls -lG'
 alias rvm='~/scripts/rvm.tcsh'
