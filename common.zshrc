@@ -255,6 +255,12 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
 fi
 
 
+if [[ "$myhost" == "hbomb" ]]; then
+	eval "$(sk -z)"
+fi
+
+
+
 # D O C K E R 
 
 dock-help() {
