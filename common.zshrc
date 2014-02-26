@@ -153,7 +153,13 @@ alias release-close='git flow release finish -m "release-commit"'
 alias fastfix="gca 'some fixes' && git push"
 
 alias helpgit='pandoc -s -f markdown -t man ~/scripts/docs/git.md| groff -T utf8 -man | less'
-eval "$(hub alias -s)"
+
+
+if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+
+   eval "$(hub alias -s)"
+
+fi
 
 
 
@@ -240,8 +246,7 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
 
    alias skk='sk -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
    alias iw='sk -s infoweb -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
-   source ~/.sk-files/general-completion
-   alias sk-regen-autoc='sk -z > ~/.sk-files/general-completion'
+   eval "$(sk -z)"
 
 fi
 
