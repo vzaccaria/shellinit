@@ -1,96 +1,123 @@
-#! Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="jonathan"
-
-# Set to this to use case-sensitive completion
-CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(node npm brew vi-mode osx)
-
-source $ZSH/oh-my-zsh.sh
-
-# echo "Setting up: aliases" 
 
 
-splithead() {
-	sed '1,/^cut-here$/!d' $@ 
-}
+#  _____ _____ _____    _____ _____    __ __ 
+# |     |  _  |     |  |     |   __|  |  |  |
+# | | | |     |   --|  |  |  |__   |  |-   -|
+# |_|_|_|__|__|_____|  |_____|_____|  |__|__|
+
+myhost=`hostname`
+
+if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+
+      #! Path to your oh-my-zsh configuration.
+      ZSH=$HOME/.oh-my-zsh
+
+      # Set name of the theme to load.
+      ZSH_THEME="jonathan"
+
+      # Set to this to use case-sensitive completion
+      CASE_SENSITIVE="true"
+
+      # Comment this out to disable weekly auto-update checks
+      DISABLE_AUTO_UPDATE="true"
+
+      # Uncomment following line if you want red dots to be displayed while waiting for completion
+      COMPLETION_WAITING_DOTS="true"
+
+      # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+      # Example format: plugins=(rails git textmate ruby lighthouse)
+      plugins=(node npm brew vi-mode osx)
+
+      source $ZSH/oh-my-zsh.sh
+
+      #              _   _     
+      #  _ __   __ _| |_| |__  
+      # | '_ \ / _` | __| '_ \ 
+      # | |_) | (_| | |_| | | |
+      # | .__/ \__,_|\__|_| |_|
+      # |_|                    
 
 
-splittail() {
-	sed '1,/^cut-here$/d' $@ 
-}
+      path=(\
+               /Users/zaccaria/.cabal/bin \
+               /usr/local/bin \
+               /usr/bin \
+               /bin \
+               /usr/sbin \
+               /sbin \
+               /usr/X11/bin \
+               /usr/texbin \
+               /usr/local/share/npm/bin \
+               /usr/local/share/python \
+               /usr/local/texlive/2013/bin/universal-darwin \
+               /Users/zaccaria/development/emscripten/emscripten \
+               /Users/zaccaria/scripts \
+               /Developer-Android/bundle/sdk/platform-tools \
+               /Developer-Android/bundle/sdk/tools \
+               /Applications/Vagrant/bin \
+               /Users/zaccaria/development/github/data-science-toolbox)
 
-#              _   _     
-#  _ __   __ _| |_| |__  
-# | '_ \ / _` | __| '_ \ 
-# | |_) | (_| | |_| | | |
-# | .__/ \__,_|\__|_| |_|
-# |_|                    
 
-#
-# Ruby's paths, to be cleaned up.. maybe
-# /Users/zaccaria/.rvm/gems/ruby-1.9.2-p320/bin
-# /Users/zaccaria/.rvm/gems/ruby-1.9.2-p320@global/bin
-# /Users/zaccaria/.rvm/rubies/ruby-1.9.2-p320/bin
-# /Users/zaccaria/.rvm/bin
-#
-#
+      #                             _       
+      #   _____  ___ __   ___  _ __| |_ ___ 
+      #  / _ \ \/ / '_ \ / _ \| '__| __/ __|
+      # |  __/>  <| |_) | (_) | |  | |_\__ \
+      #  \___/_/\_\ .__/ \___/|_|   \__|___/
+      #           |_|                       
 
-path=(\
-         /Users/zaccaria/.cabal/bin \
+
+      export LC_ALL=en_US.UTF-8
+      export LANG=en_US.UTF-8
+      export LANGUAGE=en_US.UTF-8
+      export DEFAULT_CHARSET=UTF-8
+      export NODE_PATH=/usr/local/share/npm/lib/node_modules
+
+      unsetopt correct_all
+
+fi
+
+
+# | |__ | |__   ___  _ __ ___ | |__  
+# | '_ \| '_ \ / _ \| '_ ` _ \| '_ \ 
+# | | | | |_) | (_) | | | | | | |_) |
+# |_| |_|_.__/ \___/|_| |_| |_|_.__/ 
+
+
+if [[ "$myhost" == "hbomb" ]]; then
+
+
+      # See https://blog.breadncup.com/2011/06/09/skip-git-ssl-verification/
+      export GIT_SSL_NO_VERIFY=1
+
+      #              _   _     
+      #  _ __   __ _| |_| |__  
+      # | '_ \ / _` | __| '_ \ 
+      # | |_) | (_| | |_| | | |
+      # | .__/ \__,_|\__|_| |_|
+      # |_|                    
+
+      path=(\
+         /usr/local/sbin \
          /usr/local/bin \
-         /usr/bin \
-         /bin \
          /usr/sbin \
+         /usr/bin \
          /sbin \
-         /usr/X11/bin \
-         /usr/texbin \
-         /usr/local/share/npm/bin \
-         /usr/local/share/python \
-         /usr/local/texlive/2013/bin/universal-darwin \
-         /Users/zaccaria/development/emscripten/emscripten \
-         /Users/zaccaria/scripts \
-         /Developer-Android/bundle/sdk/platform-tools \
-         /Developer-Android/bundle/sdk/tools \
-         /Applications/Vagrant/bin \
-         /Users/zaccaria/development/github/data-science-toolbox)
+         /bin
+         /home/zaccaria/bin)
 
+      #                             _       
+      #   _____  ___ __   ___  _ __| |_ ___ 
+      #  / _ \ \/ / '_ \ / _ \| '__| __/ __|
+      # |  __/>  <| |_) | (_) | |  | |_\__ \
+      #  \___/_/\_\ .__/ \___/|_|   \__|___/
+      #           |_|                       
 
-#                             _       
-#   _____  ___ __   ___  _ __| |_ ___ 
-#  / _ \ \/ / '_ \ / _ \| '__| __/ __|
-# |  __/>  <| |_) | (_) | |  | |_\__ \
-#  \___/_/\_\ .__/ \___/|_|   \__|___/
-#           |_|                       
-
-
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
-export DEFAULT_CHARSET=UTF-8
-export NODE_PATH=/usr/local/share/npm/lib/node_modules
-
-unsetopt correct_all
+      export TERM=linux   
+      export LC_ALL=en_US.UTF-8
+      export LANG=en_US.UTF-8
+      export LANGUAGE=en_US.UTF-8
+      export DEFAULT_CHARSET=UTF-8
+fi
 
 
 
@@ -103,7 +130,6 @@ unsetopt correct_all
 # Use n{major|minor|patch} && nfinalize to publish an npm repository and keep git up to date
 
 alias svndiff='svn diff -r HEAD --diff-cmd "colordiff" -x "-y --suppress-common-lines"'
-alias mi='open -a "Mou"'
 alias v='/usr/bin/vim'
 
 #   __ _(_) |_ 
@@ -150,8 +176,18 @@ alias npublish='git checkout master && npm publish . && git checkout development
 #  \___/ \__|_| |_|\___|_|  
 
 alias ll='ls -lG'
-alias vim='/Users/zaccaria/scripts/subl'
-alias vi='/Users/zaccaria/scripts/subl'
+
+if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+
+   alias vim='/Users/zaccaria/scripts/subl'
+   alias vi='/Users/zaccaria/scripts/subl'
+   alias mi='open -a "Mou"'
+   alias sv='open -a "Google Chrome"'
+
+    # Body
+fi
+
+
 alias rvm='~/scripts/rvm.tcsh'
 alias mk='make -f makefile.mk'
 alias kitty='killall -9 ruby node'
@@ -159,7 +195,6 @@ alias ka='killall node'
 alias sa='make server'
 alias ss='make server'
 alias so='make reverse'
-alias sv='open -a "Google Chrome"'
 alias pd='jsps -fec | eps'
 
 ## find my sources
@@ -189,8 +224,11 @@ alias fms='ack -k \
 # |_.__/ \___/|_| |_/___\___/ 
                             
 
+if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
 
-alias bonzo-mount='sshfs zaccaria@192.168.0.103:/home/zaccaria /Volumes/Farm'
+   alias bonzo-mount='sshfs zaccaria@192.168.0.103:/home/zaccaria /Volumes/Farm'
+
+fi
 
 
 #  ___| | __
@@ -198,10 +236,14 @@ alias bonzo-mount='sshfs zaccaria@192.168.0.103:/home/zaccaria /Volumes/Farm'
 # \__ \   < 
 # |___/_|\_\
 
-alias skk='sk -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
-alias iw='sk -s infoweb -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
-source ~/.sk-files/general-completion
-alias sk-regen-autoc='sk -z > ~/.sk-files/general-completion'
+if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+
+   alias skk='sk -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
+   alias iw='sk -s infoweb -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
+   source ~/.sk-files/general-completion
+   alias sk-regen-autoc='sk -z > ~/.sk-files/general-completion'
+
+fi
 
 
 # D O C K E R 
