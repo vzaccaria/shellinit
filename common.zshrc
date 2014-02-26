@@ -194,7 +194,7 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
 fi
 
 if [[ "$myhost" == "hbomb" ]]; then
-   alias ack='/home/zaccaria/bin/ack-grep'
+   alias ack='/home/zaccaria/bin/ack'
 fi
 
 
