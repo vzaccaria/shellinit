@@ -193,6 +193,10 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
     # Body
 fi
 
+if [[ "$myhost" == "hbomb" ]]; then
+   alias ack='/home/zaccaria/bin/ack-grep'
+fi
+
 
 alias rvm='~/scripts/rvm.tcsh'
 alias mk='make -f makefile.mk'
