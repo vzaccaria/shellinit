@@ -104,7 +104,8 @@ if [[ "$myhost" == "hbomb" ]]; then
          /usr/sbin \
          /usr/bin \
          /sbin \
-         /bin
+         /bin \
+	 /home/zaccaria/node_modules/.bin \
          /home/zaccaria/bin)
 
       #                             _       
@@ -119,6 +120,9 @@ if [[ "$myhost" == "hbomb" ]]; then
       export LANG=en_US.UTF-8
       export LANGUAGE=en_US.UTF-8
       export DEFAULT_CHARSET=UTF-8
+
+      # Setting up python brew: https://github.com/utahta/pythonbrew
+      [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
 fi
 
 
@@ -239,7 +243,7 @@ alias fms='ack -k \
 if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
 
    alias bonzo-mount='sshfs zaccaria@192.168.0.103:/home/zaccaria /Volumes/Farm'
-
+   alias hbomb-mount='sshfs zaccaria@hbomb.elet.polimi.it:/home/zaccaria /Volumes/Farm'
 fi
 
 
@@ -255,6 +259,12 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]
    eval "$(sk -z)"
 
 fi
+
+
+if [[ "$myhost" == "hbomb" ]]; then
+	eval "$(sk -z)"
+fi
+
 
 
 # D O C K E R 
