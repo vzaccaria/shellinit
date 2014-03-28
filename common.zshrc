@@ -97,6 +97,7 @@ if [[ "$myhost" == "hbomb" ]]; then
       # |_|                    
 
       path=(\
+	 /home/zaccaria/usr/local/bin \
          /usr/local/sbin \
          /usr/local/bin \
          /usr/sbin \
@@ -118,6 +119,7 @@ if [[ "$myhost" == "hbomb" ]]; then
       export LANG=en_US.UTF-8
       export LANGUAGE=en_US.UTF-8
       export DEFAULT_CHARSET=UTF-8
+      export CMAKE_ROOT=/home/zaccaria/usr/local/
 
       # Setting up python brew: https://github.com/utahta/pythonbrew
       [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
