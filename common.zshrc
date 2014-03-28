@@ -7,7 +7,7 @@
 
 myhost=`hostname`
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
 
       #! Path to your oh-my-zsh configuration.
       ZSH=$HOME/.oh-my-zsh
@@ -40,6 +40,7 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
 
       path=(\
                /Users/zaccaria/.cabal/bin \
+               /usr/local/share/npm/bin \
                /usr/local/bin \
                /usr/bin \
                /bin \
@@ -47,11 +48,11 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
                /sbin \
                /usr/X11/bin \
                /usr/texbin \
-               /usr/local/share/npm/bin \
                /usr/local/share/python \
                /usr/local/texlive/2013/bin/universal-darwin \
                /Users/zaccaria/development/emscripten/emscripten \
                /Users/zaccaria/scripts \
+               /Users/zaccaria/bin/oclint/bin \
                /Developer-Android/bundle/sdk/platform-tools \
                /Developer-Android/bundle/sdk/tools \
                /Applications/Vagrant/bin \
@@ -70,7 +71,8 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
       export LANG=en_US.UTF-8
       export LANGUAGE=en_US.UTF-8
       export DEFAULT_CHARSET=UTF-8
-      export NODE_PATH=/usr/local/share/npm/lib/node_modules
+      export NODE_PATH=/usr/local/lib/node_modules
+      # export NODE_PATH=/usr/local/share/npm/lib/node_modules:/usr/local/lib/node_modules
 
       unsetopt correct_all
 
@@ -161,7 +163,7 @@ alias fastfix="gca 'some fixes' && git push"
 alias helpgit='pandoc -s -f markdown -t man ~/scripts/docs/git.md| groff -T utf8 -man | less'
 
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
 
    eval "$(hub alias -s)"
 
@@ -189,7 +191,7 @@ alias npublish='git checkout master && npm publish . && git checkout development
 
 alias ll='ls -lG'
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
 
    alias vim='/Users/zaccaria/scripts/subl'
    alias vi='/Users/zaccaria/scripts/subl'
@@ -240,7 +242,7 @@ alias fms='ack -k \
 # |_.__/ \___/|_| |_/___\___/ 
                             
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
 
    alias bonzo-mount='sshfs zaccaria@192.168.0.103:/home/zaccaria /Volumes/Farm'
    alias hbomb-mount='sshfs zaccaria@hbomb.elet.polimi.it:/home/zaccaria /Volumes/Farm'
@@ -252,7 +254,7 @@ fi
 # \__ \   < 
 # |___/_|\_\
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" ]]; then
+if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
 
    alias skk='sk -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
    alias iw='sk -s infoweb -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
@@ -274,15 +276,14 @@ dock-help() {
    echo ""
    echo "- Single container"
    echo "  . dock-run:           start a container and sshd, expose port 22 on 2222"
-   echo "  . dock-ssh:           connect to the latest container created"
-   echo "  . dock-kill:          kill latest container"
+   echo "  . dock-ssh:           connect to the latest container created with dock-run"
+   echo "  . dock-kill:          kill latest container created with dock-run"
    echo "  . dock-ps:            list running containers"
    echo ""
    echo "- Images"
    echo "  . dock-create-image:  create image by giving a name"
    echo "  . dock-image-list:    list available images"
    echo "  . dock-choose-image:  choose the image"
-   echo "  . dock-login:         open a shell in the last image created"
    echo "  . dock-commit:        commit the specified container"
 }
 
@@ -297,17 +298,37 @@ dock-choose-image() {
    echo "$@" > .latest-image
 }
 
-dock-start-ssh() {
-   x=`cat .latest-image`
-   echo "Running '$x' in detached mode."
-   c=`docker run -d -P -t $x /usr/sbin/sshd -D`
-   echo "Last container: $c"
+
+dock-set-last-container() {
+   c=`docker ps -a -q | head -n 1`
    echo $c > .last-running-container
+   if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
+      echo $c | pbcopy
+   fi
+   echo "Last container used is: $c - copied on clipboard"
 }
 
-dock-ssh() {
-   ssh root@127.0.0.1 -p 2222
+dock-get-last-container-ip() {
+   c=`docker ps -a -q | head -n 1`
+   ip=`docker inspect $c | jq '.[0].NetworkSettings.IPAddress' | sed 's/\"//g'`
+   echo $ip
 }
+
+dock-start-ssh() {
+   x=`cat .latest-image`
+   echo "Creating a new container"
+   echo "Running ssh server on '$x' in detached mode. Kill with dock-stop-ssh()"
+   c=`docker run -d -p 41150:22 -t $x /usr/sbin/sshd -D`
+   echo $c
+   dock-set-last-container
+   echo "ssh root@`dock-get-last-container-ip` - if you are on boot2docker"
+}
+
+dock-get-ssh-port() {
+   c=`cat .last-running-container`
+   docker port $c 22 | sed 's/0.0.0.0://g'
+}
+
 
 dock-stop-ssh() {
    c=`cat .last-running-container`
@@ -315,17 +336,45 @@ dock-stop-ssh() {
 }
 
 dock-login() {
+   echo "Creating a new container"
    x=`cat .latest-image`
    docker run -i -t $x /bin/bash
+   dock-set-last-container
 }
 
 dock-commit() {
    x=`cat .latest-image`
-   docker commit $@ $x
+   c=`cat .last-running-container`
+   echo "Committing container $c to $x"
+   docker commit $c $x
 }
 
-alias dock-ps='docker ps'
+alias dock-ps='docker ps -a'
 alias dock-image-list='docker images'
+
+dock-stop-all() {
+   docker ps -a -q | xargs -n 1 docker stop 
+   dock-status
+}
+
+dock-kill-all() {
+   docker ps -a -q | xargs -n 1 docker rm 
+   dock-status
+}
+
+dock-wipe-all() {
+   dock-stop-all && dock-kill-all
+}
+
+dock-status() {
+   x=`cat .latest-image`
+   c=`cat .last-running-container`
+   echo "--"
+   echo "Current image:       $x"
+   echo "Current container:   $c" 
+   echo ""
+   dock-ps
+}
 
 export DOCKER_HOST=tcp://localhost:4243 
 
