@@ -7,13 +7,13 @@
 
 myhost=`hostname`
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
+if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook"  || "$myhost" == "macbook.local" ]]; then
 
       #! Path to your oh-my-zsh configuration.
       ZSH=$HOME/.oh-my-zsh
 
       # Set name of the theme to load.
-      ZSH_THEME="jonathan"
+      ZSH_THEME="lambda"
 
       # Set to this to use case-sensitive completion
       CASE_SENSITIVE="true"
@@ -37,10 +37,13 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]
       # | .__/ \__,_|\__|_| |_|
       # |_|                    
 
+      export GOPATH=/Users/zaccaria/bin/go
 
       path=(\
                /Users/zaccaria/.cabal/bin \
+               /Users/zaccaria/node_modules/.bin \
                /usr/local/share/npm/bin \
+               /usr/local/sbin \
                /usr/local/bin \
                /usr/bin \
                /bin \
@@ -48,15 +51,15 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]
                /sbin \
                /usr/X11/bin \
                /usr/texbin \
-               /usr/local/share/python \
                /usr/local/texlive/2013/bin/universal-darwin \
-               /Users/zaccaria/development/emscripten/emscripten \
                /Users/zaccaria/scripts \
                /Users/zaccaria/bin/oclint/bin \
                /Developer-Android/bundle/sdk/platform-tools \
                /Developer-Android/bundle/sdk/tools \
                /Applications/Vagrant/bin \
-               /Users/zaccaria/development/github/data-science-toolbox)
+               /Users/zaccaria/development/github/data-science-toolbox \
+               /usr/local/Cellar/go/1.2/libexec/bin \
+               $GOPATH/bin)
 
 
       #                             _       
@@ -76,6 +79,21 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]
 
       unsetopt correct_all
 
+      #        _ _                     
+      #   __ _| (_) __ _ ___  ___  ___ 
+      #  / _` | | |/ _` / __|/ _ \/ __|
+      # | (_| | | | (_| \__ \  __/\__ \
+      #  \__,_|_|_|\__,_|___/\___||___/
+                                     
+      alias cwd='pwd | pbcopy'
+      eval "$(hub alias -s)"
+      alias vim='/Users/zaccaria/scripts/subl'
+      alias vi='/Users/zaccaria/scripts/subl'
+      alias mi='open -a "Mou"'
+      alias sv='open -a "Google Chrome"'
+
+      # load up zed
+      . `brew --prefix`/etc/profile.d/z.sh
 fi
 
 
@@ -105,7 +123,7 @@ if [[ "$myhost" == "hbomb" ]]; then
          /usr/bin \
          /sbin \
          /bin \
-	 /home/zaccaria/node_modules/.bin \
+	      /home/zaccaria/node_modules/.bin \
          /home/zaccaria/bin)
 
       #                             _       
@@ -123,20 +141,34 @@ if [[ "$myhost" == "hbomb" ]]; then
 
       # Setting up python brew: https://github.com/utahta/pythonbrew
       [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
+
+
+      alias ack='/home/zaccaria/bin/ack'
 fi
 
 
 
-#   __ _| (_) __ _ ___  ___  ___ 
-#  / _` | | |/ _` / __|/ _ \/ __|
-# | (_| | | | (_| \__ \  __/\__ \
-#  \__,_|_|_|\__,_|___/\___||___/
-                               
+#                                                    _ _                     
+#   ___ ___  _ __ ___  _ __ ___   ___  _ __     __ _| (_) __ _ ___  ___  ___ 
+#  / __/ _ \| '_ ` _ \| '_ ` _ \ / _ \| '_ \   / _` | | |/ _` / __|/ _ \/ __|
+# | (_| (_) | | | | | | | | | | | (_) | | | | | (_| | | | (_| \__ \  __/\__ \
+#  \___\___/|_| |_| |_|_| |_| |_|\___/|_| |_|  \__,_|_|_|\__,_|___/\___||___/
+                                                                                                          
+
+f() {
+   find . -name "*$@*"
+}
+
+p() {
+   ps -fe | grep -v grep | grep "$@" -i --color=auto;
+}
 
 # Use n{major|minor|patch} && nfinalize to publish an npm repository and keep git up to date
 
 alias svndiff='svn diff -r HEAD --diff-cmd "colordiff" -x "-y --suppress-common-lines"'
 alias v='/usr/bin/vim'
+alias help='sharkdown help.md | less -R'
+
 
 #   __ _(_) |_ 
 #  / _` | | __|
@@ -161,13 +193,6 @@ alias fastfix="gca 'some fixes' && git push"
 alias helpgit='pandoc -s -f markdown -t man ~/scripts/docs/git.md| groff -T utf8 -man | less'
 
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
-
-   eval "$(hub alias -s)"
-
-fi
-
-
 
 
 #  _ __  _ __  _ __ ___  
@@ -189,19 +214,6 @@ alias npublish='git checkout master && npm publish . && git checkout development
 
 alias ll='ls -lG'
 
-if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
-
-   alias vim='/Users/zaccaria/scripts/subl'
-   alias vi='/Users/zaccaria/scripts/subl'
-   alias mi='open -a "Mou"'
-   alias sv='open -a "Google Chrome"'
-
-    # Body
-fi
-
-if [[ "$myhost" == "hbomb" ]]; then
-   alias ack='/home/zaccaria/bin/ack'
-fi
 
 
 alias rvm='~/scripts/rvm.tcsh'
@@ -257,7 +269,6 @@ if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]
    alias skk='sk -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
    alias iw='sk -s infoweb -f /Users/zaccaria/short/tools/deploy-dsl/swiss-deploy-knife/examples/config.js '
    eval "$(sk -z)"
-
 fi
 
 
@@ -266,115 +277,6 @@ if [[ "$myhost" == "hbomb" ]]; then
 fi
 
 
-
-# D O C K E R 
-
-dock-help() {
-   echo "Docker aliases:"
-   echo ""
-   echo "- Single container"
-   echo "  . dock-run:           start a container and sshd, expose port 22 on 2222"
-   echo "  . dock-ssh:           connect to the latest container created with dock-run"
-   echo "  . dock-kill:          kill latest container created with dock-run"
-   echo "  . dock-ps:            list running containers"
-   echo ""
-   echo "- Images"
-   echo "  . dock-create-image:  create image by giving a name"
-   echo "  . dock-image-list:    list available images"
-   echo "  . dock-choose-image:  choose the image"
-   echo "  . dock-commit:        commit the specified container"
-}
-
-dock-create-image() {
-   docker build -t $@  .
-   echo "Setting local image to '$@'."
-   echo "$@" > .latest-image
-}
-
-dock-choose-image() {
-   echo "Setting local image to '$@'."
-   echo "$@" > .latest-image
-}
-
-
-dock-set-last-container() {
-   c=`docker ps -a -q | head -n 1`
-   echo $c > .last-running-container
-   if [[ "$myhost" == "pc121-215.elet.polimi.it" || "$myhost" == "macbook.local" ]]; then
-      echo $c | pbcopy
-   fi
-   echo "Last container used is: $c - copied on clipboard"
-}
-
-dock-get-last-container-ip() {
-   c=`docker ps -a -q | head -n 1`
-   ip=`docker inspect $c | jq '.[0].NetworkSettings.IPAddress' | sed 's/\"//g'`
-   echo $ip
-}
-
-dock-start-ssh() {
-   x=`cat .latest-image`
-   echo "Creating a new container"
-   echo "Running ssh server on '$x' in detached mode. Kill with dock-stop-ssh()"
-   c=`docker run -d -p 41150:22 -t $x /usr/sbin/sshd -D`
-   echo $c
-   dock-set-last-container
-   echo "ssh root@`dock-get-last-container-ip` - if you are on boot2docker"
-}
-
-dock-get-ssh-port() {
-   c=`cat .last-running-container`
-   docker port $c 22 | sed 's/0.0.0.0://g'
-}
-
-
-dock-stop-ssh() {
-   c=`cat .last-running-container`
-   docker kill $c
-}
-
-dock-login() {
-   echo "Creating a new container"
-   x=`cat .latest-image`
-   docker run -i -t $x /bin/bash
-   dock-set-last-container
-}
-
-dock-commit() {
-   x=`cat .latest-image`
-   c=`cat .last-running-container`
-   echo "Committing container $c to $x"
-   docker commit $c $x
-}
-
-alias dock-ps='docker ps -a'
-alias dock-image-list='docker images'
-
-dock-stop-all() {
-   docker ps -a -q | xargs -n 1 docker stop 
-   dock-status
-}
-
-dock-kill-all() {
-   docker ps -a -q | xargs -n 1 docker rm 
-   dock-status
-}
-
-dock-wipe-all() {
-   dock-stop-all && dock-kill-all
-}
-
-dock-status() {
-   x=`cat .latest-image`
-   c=`cat .last-running-container`
-   echo "--"
-   echo "Current image:       $x"
-   echo "Current container:   $c" 
-   echo ""
-   dock-ps
-}
-
-export DOCKER_HOST=tcp://localhost:4243 
 
 
 
